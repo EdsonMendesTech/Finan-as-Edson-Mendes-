@@ -1,22 +1,24 @@
-# Finanças Edson Mendes
+# Finanças Edson Mendes — controle de acesso
 
-Primeira versão demonstrativa, criada diretamente neste repositório GitHub com base nas referências visuais do aplicativo Base44.
+## Estado atual
 
-## Executar
+A interface em `index.html` é apenas uma **demonstração visual**. Não tem autenticação real, armazenamento persistente nem autorização de clientes. **Não usar para dados reais.** O aplicativo Base44 original não foi copiado nem alterado.
 
-Abra `index.html` no navegador ou publique como site estático. Não requer instalação de dependências.
+## Estrutura preparada
 
-## Implementado
+- `supabase/schema.sql`: tabelas de usuários e lançamentos, políticas RLS de isolamento, perfil inicial pendente, papéis de administrador/cliente e liberação/bloqueio pelo administrador.
+- `index.html`: protótipo estático atual; **não está ligado ao Supabase**.
 
-- Interface responsiva verde e creme
-- Navegação Painel, Lançamentos, Contas, Cobranças e Mais
-- Resumo de receitas, despesas e saldo
-- Lista e busca de lançamentos
-- Inclusão temporária de lançamentos
-- Estrutura visual para clientes, metas, orçamentos, cartões e liberações
+## Próximas etapas obrigatórias
 
-## Limitações importantes
+1. Criar projeto privado no Supabase sob controle do proprietário e executar `supabase/schema.sql` no SQL Editor.
+2. Desabilitar cadastro público de usuários no Supabase Auth. Criar/convocar os clientes apenas pelo painel administrativo do provedor ou por endpoint seguro no servidor.
+3. Criar primeiro usuário no Supabase Auth; usar seu UUID na instrução de promoção a admin comentada no final do SQL.
+4. Construir frontend autenticado e integrar as operações financeiras ao Supabase, sempre com sessão de usuário; construir painel administrativo para ativar/bloquear contas.
+5. Testar com duas contas distintas, confirmar isolamento e bloqueio imediato antes de aceitar dados reais.
+6. Obter exportação autorizada do Base44 para importar dados reais. **Não copiar senhas ou tokens.**
+7. Hospedar o aplicativo por HTTPS, configurar domínio e rotas de autenticação.
 
-**Este projeto é uma demonstração, não uma migração completa da Base44.** Os valores são fictícios, lançamentos não persistem após atualizar a página, não existe autenticação, banco de dados, permissões nem isolamento de contas de clientes. Não insira informações financeiras ou pessoais reais nesta versão. A implementação desses recursos requer backend seguro e importação autorizada dos dados originais. O aplicativo original na Base44 não foi modificado.
+## Segurança
 
-O repositório é público: não adicionar senhas, chaves PIX privadas, CPF, informações de clientes nem arquivos exportados com dados pessoais.
+Este repositório é **público**. Não envie dados de clientes, CPF/CNPJ, senhas, chaves secretas, backups de produção ou `service_role`. Uma chave pública anon do Supabase só pode ser usada depois que as políticas RLS estiverem testadas. O GitHub Pages sozinho não fornece backend ou login seguro.
